@@ -3,14 +3,17 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
-    server: {
-        proxy: {
-            "/api": {
-                target: "https://mern-chat-app-1-lowr.onrender.com",
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ""),
-            },
-        },
-    },
     plugins: [react()],
+    server: {
+        proxy:
+            process.env.NODE_ENV === "development"
+                ? {
+                      "/api": {
+                          target: "http://localhost:5000", // Use localhost in dev
+                          changeOrigin: true,
+                          rewrite: (path) => path.replace(/^\/api/, ""),
+                      },
+                  }
+                : undefined, // No proxy in production
+    },
 });
