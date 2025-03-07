@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://mern-chat-app-2-p6d6.onrender.com"],
+        origin: ["http://localhost:5173", "https://mern-chat-app-2-p6d6.onrender.com"],
         credentials: true,
     },
 });
