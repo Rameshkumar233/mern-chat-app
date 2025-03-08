@@ -152,7 +152,7 @@ const ProfilePage = () => {
                                     onChange={(e) => setFullName(e.target.value)}
                                     readOnly={isEditing}
                                 />
-                                <div>
+                                <div className='whitespace-nowrap'>
                                     {!isEditing && <EmojiPicker setText={setFullName} />}
                                     <span
                                         className='btn btn-sm'

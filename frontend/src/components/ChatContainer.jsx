@@ -73,31 +73,13 @@ const ChatContainer = () => {
                 setSelectionMode={setSelectionMode}
                 setOpenClearModal={setOpenClearModal}
             />
-            {/* Action Modal */}
-            <ConfirmationModal
-                openModal={openSelectModal}
-                handleDelete={deleteSelectedMessages}
-                setOpenModal={setOpenSelectModal}
-                selectedMessages={selectedMessages}
-                title='Are you sure?'
-                message='Do you want to delete the selected messages?'
-            />
-            <ConfirmationModal
-                openModal={openClearModal}
-                handleDelete={clearAllMessages}
-                setOpenModal={setOpenClearModal}
-                title='Are you sure?'
-                message='Do you want to delete all messages?'
-            />
             {/* Messages */}
-            <div className='flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin'>
+            <div className='flex-1 p-4 space-y-4 overflow-y-auto scrollbar-none'>
                 {Object.entries(groupMessages).map(([date, messagesForDate]) => {
                     return (
-                        <div
-                            key={date}
-                            className='mb-6'>
+                        <div key={date}>
                             {/* Date Header */}
-                            <div className='my-4 text-sm text-center text-gray-500 bg-base-200'>{date}</div>
+                            <div className='w-full my-4 text-sm font-medium text-center text-gray-400 bg-base-300'>{date}</div>
                             {messagesForDate.map((message) => {
                                 return (
                                     <Message
@@ -127,6 +109,22 @@ const ChatContainer = () => {
             ) : (
                 <MessageInput />
             )}
+            {/* Action Modal */}
+            <ConfirmationModal
+                openModal={openSelectModal}
+                handleDelete={deleteSelectedMessages}
+                setOpenModal={setOpenSelectModal}
+                selectedMessages={selectedMessages}
+                title='Are you sure?'
+                message='Do you want to delete the selected messages?'
+            />
+            <ConfirmationModal
+                openModal={openClearModal}
+                handleDelete={clearAllMessages}
+                setOpenModal={setOpenClearModal}
+                title='Are you sure?'
+                message='Do you want to delete all messages?'
+            />
         </div>
     );
 };

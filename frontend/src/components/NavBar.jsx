@@ -7,7 +7,7 @@ const NavBar = () => {
     const { logout, authUser } = useAuthStore();
 
     return (
-        <header className='fixed top-0 w-full border-b bg-base-100 backdrop-blur-lg bg-opacity-80 border-base-300'>
+        <header className='fixed top-0 z-50 w-full border-b bg-base-100 backdrop-blur-lg bg-opacity-80 border-base-300'>
             <div className='container h-16 px-5 py-2 mx-auto'>
                 <div className='flex items-center justify-between h-full'>
                     {/* Left Side */}

@@ -38,12 +38,12 @@ const SideBar = () => {
 
     if (isUsersLoading) return <SidebarSkeleton />;
     return (
-        <aside className={`flex flex-col h-full transition-all duration-300 sm:border-r md:w-80 sm:w-72 sm:border-base-300 ${selectedUser && "hidden sm:block"}`}>
+        <aside className={`sm:flex sm:flex-col h-full transition-all duration-300 sm:border-r md:w-80 sm:w-72 sm:border-base-300 ${selectedUser && "hidden sm:block"}`}>
             <div className='w-full p-5 border-b border-base-200'>
                 {/* Header */}
                 <div className='flex items-center gap-x-3'>
                     <Users className='size-6' />
-                    <span className='font-medium '>Chats</span>
+                    <span className='font-medium '>Chats 1</span>
                 </div>
                 {/* Search users */}
                 <Search
@@ -52,7 +52,7 @@ const SideBar = () => {
                 />
             </div>
             {/* User List */}
-            <div className='py-3 overflow-y-auto scrollbar-none'>
+            <div className='overflow-y-auto scrollbar-none'>
                 {filteredUsers.map((user) => {
                     return (
                         <button

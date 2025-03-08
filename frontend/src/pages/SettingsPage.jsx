@@ -18,7 +18,7 @@ const SettingsPage = () => {
                 <p className='text-sm text-base-content/70'>Choose Your Theme</p>
             </div>
             {/* Themes */}
-            <div className='grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8'>
+            <div className='grid grid-cols-3 gap-2 xs:grid-cols-4 sm:grid-cols-6 lg:grid-cols-8'>
                 {THEMES.map((t) => (
                     <button
                         key={t}
