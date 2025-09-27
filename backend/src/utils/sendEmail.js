@@ -1,20 +1,19 @@
-import  brevo  from "@getbrevo/brevo"
+import brevo from "@getbrevo/brevo";
 import { verificationEmailTemplate, welcomeEmailTemplate } from "./emailTemplate.js";
 
 const isDev = process.env.NODE_ENV === "development";
 
-const apiInstance = new brevo.TransactionalEmailsApi()
-const apiKey = apiInstance.authentications["apiKey"]
-apiKey.apiKey = process.env.BREVO_API_KEY
-
+const apiInstance = new brevo.TransactionalEmailsApi();
+const apiKey = apiInstance.authentications["apiKey"];
+apiKey.apiKey = process.env.BREVO_API_KEY;
 
 export const sendVerificationEmail = async (to, verificationToken) => {
     const emailData = {
-        sender: {email : process.env.EMAIL_USER},
-        to: [{email: isDev ? process.env.EMAIL_USER : to}],
+        sender: { email: process.env.EMAIL_USER },
+        to: [{ email: isDev ? process.env.EMAIL_USER : to }],
         subject: "Verify Email Address",
-        htmlContent: verificationEmailTemplate(verificationToken)
-    }
+        htmlContent: verificationEmailTemplate(verificationToken),
+    };
 
     try {
         const info = await apiInstance.sendTransacEmail(emailData);
@@ -27,11 +26,11 @@ export const sendVerificationEmail = async (to, verificationToken) => {
 
 export const sendWelcomeEmail = async (to, username) => {
     const emailData = {
-        sender: {email : process.env.EMAIL_USER},
-        to: [{email: isDev ? process.env.EMAIL_USER : to}],
+        sender: { email: process.env.EMAIL_USER },
+        to: [{ email: isDev ? process.env.EMAIL_USER : to }],
         subject: "Welcome to Chat App",
-        htmlContent: welcomeEmailTemplate(username)
-    }
+        htmlContent: welcomeEmailTemplate(username),
+    };
     try {
         const info = await apiInstance.sendTransacEmail(emailData);
         console.log("Welcome Email sent successfully", info.body);
