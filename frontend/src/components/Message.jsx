@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { formatMessageTime } from "../lib/utils";
 
 const Message = (props) => {
@@ -23,7 +23,7 @@ const Message = (props) => {
             <div className={`chat-image avatar flex items-center gap-x-5 align-middle ${!isSentByUser(message) && "flex-row-reverse"}`}>
                 <div className='border rounded-full size-10'>
                     <img
-                        src={isSentByUser ? authUser.profilePic || "/avatar.png" : selectedUser.profilePic || "/avatar.png"}
+                        src={(isSentByUser(message) ? authUser.profilePic : selectedUser.profilePic) || "/avatar.png"}
                         alt='profile pic'
                     />
                 </div>
