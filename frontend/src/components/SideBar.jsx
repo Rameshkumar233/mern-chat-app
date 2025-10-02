@@ -7,7 +7,7 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const SideBar = () => {
     const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
-    const { onlineUsers } = useAuthStore();
+    const { onlineUsers, authUser } = useAuthStore();
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
@@ -39,11 +39,15 @@ const SideBar = () => {
     if (isUsersLoading) return <SidebarSkeleton />;
     return (
         <aside className={`sm:flex sm:flex-col h-full transition-all duration-300 sm:border-r md:w-80 sm:w-72 sm:border-base-300 ${selectedUser && "hidden sm:block"}`}>
-            <div className='w-full p-5 border-b border-base-200'>
+            <div className='w-full p-4'>
                 {/* Header */}
                 <div className='flex items-center gap-x-3'>
-                    <Users className='size-6' />
-                    <span className='font-medium '>Chats 1</span>
+                    <img
+                        src={authUser.profilePic || "/avatar.png"}
+                        className='object-cover rounded-full size-16 '
+                        alt={authUser.name}
+                    />
+                    <h3 className='font-medium'>{authUser.fullName}</h3>
                 </div>
                 {/* Search users */}
                 <Search
@@ -53,6 +57,7 @@ const SideBar = () => {
             </div>
             {/* User List */}
             <div className='overflow-y-auto scrollbar-none'>
+                <div className='w-full px-4 py-2 font-medium text-gray-400 bg-base-100'>Users</div>
                 {filteredUsers.map((user) => {
                     return (
                         <button
