@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { Image, X, Send } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";

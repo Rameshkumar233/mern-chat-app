@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X, SmilePlus } from "lucide-react";
 import Picker from "emoji-picker-react";
 

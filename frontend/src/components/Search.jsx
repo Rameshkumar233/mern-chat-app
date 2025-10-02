@@ -1,4 +1,3 @@
-import React from "react";
 import { SearchIcon, X } from "lucide-react";
 
 const Search = ({ searchQuery, setSearchQuery }) => {

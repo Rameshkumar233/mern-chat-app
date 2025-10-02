@@ -1,4 +1,3 @@
-import React from "react";
 import { X, Trash2 } from "lucide-react";
 
 const SelectionBar = ({ setSelectionMode, selectedMessages, setOpenSelectModal }) => {
