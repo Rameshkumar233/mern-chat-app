@@ -1,11 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Settings, User, LogOut } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 
 const NavBar = () => {
     const { logout, authUser } = useAuthStore();
-
+    const location = useLocation();
+    const hideOnRoutes = ["/verify-email"];
+    if (hideOnRoutes.includes(location.pathname)) {
+        return null;
+    }
     return (
         <header className='fixed top-0 z-50 w-full border-b bg-base-100 backdrop-blur-lg bg-opacity-80 border-base-300'>
             <div className='container h-16 px-5 py-2 mx-auto'>
@@ -14,11 +18,11 @@ const NavBar = () => {
                     <div className='flex items-center justify-between'>
                         <Link
                             to='./'
-                            className='flex items-center justify-center font-bold gap-x-3'>
+                            className='flex items-center justify-center'>
                             <img
                                 src='/logo.png'
                                 alt='Logo'
-                                className='h-8 size- fill-black'
+                                className='object-contain w-auto h-10'
                             />
                         </Link>
                     </div>
