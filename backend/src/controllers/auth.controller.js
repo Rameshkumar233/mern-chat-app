@@ -44,7 +44,7 @@ export const verifyEmail = async (req, res) => {
     const { code } = req.body;
     try {
         const user = await User.findOne({ verificationToken: code, verificationTokenExpiresAt: { $gt: Date.now() } });
-        if (!user) return res.status(404).json({ message: "Invalid or Expired code" });
+        if (!user) return res.status(400).json({ message: "Invalid or Expired code" });
 
         user.isVerified = true;
         user.verificationToken = undefined;
@@ -54,8 +54,11 @@ export const verifyEmail = async (req, res) => {
 
         await sendWelcomeEmail(user.email, user.fullName.toUpperCase());
 
-        res.status(200).json({ message: "Email Verified successfully" });
-    } catch (error) {}
+        res.status(200).json({ ...user._doc, password: undefined });
+    } catch (error) {
+        console.log("Error verifying email", error.message);
+        return res.status(500).json({ messsage: "Internal server error." });
+    }
 };
 
 export const login = async (req, res) => {
@@ -72,10 +75,8 @@ export const login = async (req, res) => {
 
         generateToken(user._id, res);
         res.status(201).json({
-            _id: user._id,
-            fullName: user.fullName,
-            email: user.email,
-            profilePic: user.profilePic,
+            ...user._doc,
+            password: undefined,
         });
     } catch (error) {
         console.log("Error in Login controller:", error.message);
