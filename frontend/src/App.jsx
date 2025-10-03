@@ -40,7 +40,7 @@ const App = () => {
                 />
                 <Route
                     path='/signup'
-                    element={!authUser ? <SignUpPage /> : <Navigate to='/signin' />}
+                    element={!authUser ? <SignUpPage /> : <Navigate to='/login' />}
                 />
                 <Route
                     path='/verify-email'

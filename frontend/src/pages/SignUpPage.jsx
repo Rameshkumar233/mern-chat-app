@@ -187,7 +187,7 @@ const SignUpPage = () => {
                         <p className='text-base-content/40'>
                             Already Have an Account?{" "}
                             <Link
-                                to='/signin'
+                                to='/login'
                                 className='link link-hover link-primary'>
                                 Sign In
                             </Link>
