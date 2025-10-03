@@ -1,20 +1,24 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Eye, EyeOff, Loader2, Lock, LockKeyhole, Mail, MessageSquare, User } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
+import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 
 const SignUpPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
         password: "",
         confirmPassword: "",
     });
-    const { signup, isSigningUp } = useAuthStore();
+    const navigate = useNavigate();
+    const { signup, isLoading } = useAuthStore();
 
     const validateForm = () => {
         const { fullName, email, password } = formData;
@@ -25,17 +29,24 @@ const SignUpPage = () => {
         if (!/\S+@\S+\.\S+/.test(email)) return toast.error("Invalid Email Address");
         if (!password.trim()) return toast.error("Password is required");
         if (password.length < 6) return toast.error("Password must be atleast 6 characters long");
+        if (passwordStrength < 2) return toast.error("Password must contain atleast one letter and one number");
         if (password !== confirmPassword) return toast.error("Passwords do not match");
         return true;
     };
+    const passwordStrengthOnOutline = passwordStrength === 4 ? "focus:outline-green-500" : passwordStrength === 3 ? "focus:outline-yellow-500" : passwordStrength === 2 ? "focus:outline-orange-600" : "focus:outline-red-500";
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const success = validateForm();
-        if (success === true) signup(formData);
+        if (success === true) {
+            await signup(formData);
+            navigate("/verify-email");
+        }
     };
     const { fullName, email, password, confirmPassword } = formData;
 
@@ -62,14 +73,14 @@ const SignUpPage = () => {
                                 <span className='label-text'>Full Name</span>
                             </label>
                             <div className='relative'>
-                                <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+                                <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none '>
                                     <User className='size-5 text-base-content/40' />
                                 </div>
                                 <input
                                     name='fullName'
                                     type='text'
                                     placeholder='Eg.John Doe'
-                                    className='w-full pl-10 input input-bordered'
+                                    className='w-full pl-10 input input-bordered placeholder:opacity-75'
                                     value={fullName}
                                     onChange={(e) => handleChange(e)}
                                 />
@@ -88,7 +99,7 @@ const SignUpPage = () => {
                                     name='email'
                                     type='text'
                                     placeholder='Eg.john.doe@gmail.com'
-                                    className='w-full pl-10 input input-bordered'
+                                    className='w-full pl-10 input input-bordered placeholder:opacity-75'
                                     value={email}
                                     onChange={(e) => handleChange(e)}
                                 />
@@ -107,9 +118,11 @@ const SignUpPage = () => {
                                     name='password'
                                     type={showPassword ? "text" : "password"}
                                     placeholder='......'
-                                    className='input input-bordered w-full pl-10 placeholder:tracking-[5px]'
+                                    className={`input input-bordered w-full pl-10 placeholder:tracking-[5px] ${passwordStrengthOnOutline}`}
                                     value={password}
                                     onChange={(e) => handleChange(e)}
+                                    onFocus={() => setIsFocusedPassword(true)}
+                                    onBlur={() => setIsFocusedPassword(false)}
                                 />
                                 {/* Toggle password visibility */}
                                 <button
@@ -120,6 +133,13 @@ const SignUpPage = () => {
                                     {showPassword ? <Eye className='size-5 text-base-content/40' /> : <EyeOff className='size-5 text-base-content/40' />}
                                 </button>
                             </div>
+                            {isFocusedPassword && (
+                                <PasswordStrengthMeter
+                                    password={password}
+                                    passwordStrength={passwordStrength}
+                                    setPasswordStrength={setPasswordStrength}
+                                />
+                            )}
                         </div>
                         {/* Confirm Password */}
                         <div className='form-control'>
@@ -134,7 +154,7 @@ const SignUpPage = () => {
                                     name='confirmPassword'
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder='.......'
-                                    className='input input-bordered w-full pl-10 placeholder:tracking-[5px]'
+                                    className={`input input-bordered w-full pl-10 placeholder:tracking-[5px] ${confirmPassword.includes(password) ? "focus:outline-green-500" : "focus:outline-red-500"}`}
                                     value={confirmPassword}
                                     onChange={(e) => handleChange(e)}
                                 />
@@ -152,7 +172,7 @@ const SignUpPage = () => {
                         <button
                             type='submit'
                             className='w-full btn btn-primary'>
-                            {isSigningUp ? (
+                            {isLoading ? (
                                 <>
                                     <Loader2 className='mr-2 size-5 animate-spin' />
                                     Loading...
@@ -167,7 +187,7 @@ const SignUpPage = () => {
                         <p className='text-base-content/40'>
                             Already Have an Account?{" "}
                             <Link
-                                to='/login'
+                                to='/signin'
                                 className='link link-hover link-primary'>
                                 Sign In
                             </Link>

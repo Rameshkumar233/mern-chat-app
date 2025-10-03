@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 
-const LoginPage = () => {
-    const { login, isLoggingIn } = useAuthStore();
+const LogInPage = () => {
+    const { login, isLoading } = useAuthStore();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -29,7 +29,7 @@ const LoginPage = () => {
                         <div className='flex items-center justify-center transition-colors size-12 rounded-xl bg-primary/10 group-hover:bg-primary/25'>
                             <MessageSquare className='size-5 text-primary' />
                         </div>
-                        <h1 className='mt-2 text-2xl font-bold'>Sign In</h1>
+                        <h1 className='mt-2 text-2xl font-bold'>Log In</h1>
                         <p className='text-base-content/60'>Let's start with ChatOne By Login</p>
                     </div>
                     {/* Form */}
@@ -85,7 +85,7 @@ const LoginPage = () => {
                         <button
                             type='submit'
                             className='w-full btn btn-primary'>
-                            {isLoggingIn ? (
+                            {isLoading ? (
                                 <>
                                     <Loader2 className='mr-2 size-5 animate-spin' />
                                     Loading...
@@ -117,4 +117,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LogInPage;
