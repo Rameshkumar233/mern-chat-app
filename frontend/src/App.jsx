@@ -5,11 +5,12 @@ import { Loader } from "lucide-react";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import LogInPage from "./pages/LogInPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
+import EmailVerificationPage from "./pages/EmailVerificationPage";
 
 const App = () => {
     const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
@@ -35,15 +36,19 @@ const App = () => {
             <Routes>
                 <Route
                     path='/'
-                    element={authUser ? <HomePage /> : <Navigate to='/login' />}
+                    element={authUser && authUser.isVerified ? <HomePage /> : authUser && !authUser.isVerified ? <Navigate to='/verify-email' /> : <Navigate to='/login' />}
                 />
                 <Route
                     path='/signup'
-                    element={!authUser ? <SignUpPage /> : <Navigate to='/' />}
+                    element={!authUser ? <SignUpPage /> : <Navigate to='/signin' />}
+                />
+                <Route
+                    path='/verify-email'
+                    element={<EmailVerificationPage />}
                 />
                 <Route
                     path='/login'
-                    element={!authUser ? <LoginPage /> : <Navigate to='/' />}
+                    element={!authUser ? <LogInPage /> : <Navigate to='/' />}
                 />
                 <Route
                     path='/settings'
