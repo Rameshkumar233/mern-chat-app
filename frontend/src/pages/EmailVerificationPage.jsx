@@ -41,7 +41,7 @@ const EmailVerificationPage = () => {
                                         Verifying
                                     </>
                                 ) : (
-                                    <>"Verify Email"</>
+                                    "Verify Email"
                                 )}
                             </button>
                         </div>
