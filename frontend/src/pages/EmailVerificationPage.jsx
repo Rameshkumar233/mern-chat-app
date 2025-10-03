@@ -13,9 +13,12 @@ const EmailVerificationPage = () => {
         const verificationCode = code.join("");
         await verifyEmail(verificationCode);
         navigate("/");
-        console.log(typeof verificationCode);
     };
-    // useEffect(() => {});
+    useEffect(() => {
+        if (code.every((digit) => digit !== "")) {
+            handleSubmit(new Event("submit"));
+        }
+    }, [code]);
 
     return (
         <div className='flex items-center justify-center min-h-screen shadow-2xl bg-base-200'>
