@@ -4,7 +4,7 @@ import AuthImagePattern from "../components/AuthImagePattern";
 import { useAuthStore } from "../store/useAuthStore";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 
-const LogInPage = () => {
+const LoginPage = () => {
     const { login, isLoading } = useAuthStore();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -117,4 +117,4 @@ const LogInPage = () => {
     );
 };
 
-export default LogInPage;
+export default LoginPage;
