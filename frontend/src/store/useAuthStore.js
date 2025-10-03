@@ -7,8 +7,7 @@ const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5000
 
 export const useAuthStore = create((set, get) => ({
     authUser: null,
-    isLoggingIn: false,
-    isSigningUp: false,
+    isLoading: false,
     isUpdatingProfile: false,
     isCheckingAuth: true,
     onlineUsers: [],
@@ -16,7 +15,7 @@ export const useAuthStore = create((set, get) => ({
     checkAuth: async () => {
         try {
             const response = await axiosInstance.get("/auth/check");
-            set({ authUser: response.data });
+            set({ authUser: response.data, isCheckingAuth: false });
             get().connectSocket();
         } catch (error) {
             console.log("Error in checking auth", error);
@@ -26,20 +25,32 @@ export const useAuthStore = create((set, get) => ({
         }
     },
     signup: async (data) => {
-        set({ isSigningUp: true });
+        set({ isLoading: true });
         try {
             const response = await axiosInstance.post("/auth/signup", data);
             set({ authUser: response.data });
             toast.success("Account created successfully");
+        } catch (error) {
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isLoading: false });
+        }
+    },
+    verifyEmail: async (code) => {
+        set({ isLoading: true });
+        try {
+            const response = await axiosInstance.post("/auth/verify-email", { code });
+            set({ authUser: response.data });
+            toast.success("Email Verified Successfully");
             get().connectSocket();
         } catch (error) {
             toast.error(error.response.data.message);
         } finally {
-            set({ isSigningUp: false });
+            set({ isLoading: false });
         }
     },
     login: async (data) => {
-        set({ isLoggingIn: true });
+        set({ isLoading: true });
         try {
             const response = await axiosInstance.post("/auth/login", data);
             set({ authUser: response.data });
@@ -48,7 +59,7 @@ export const useAuthStore = create((set, get) => ({
         } catch (error) {
             toast.error(error.response.data.message);
         } finally {
-            set({ isLoggingIn: false });
+            set({ isLoding: false });
         }
     },
     logout: async () => {
@@ -68,7 +79,6 @@ export const useAuthStore = create((set, get) => ({
             set({ authUser: response.data });
             toast.success("Profile Updated Successfully");
         } catch (error) {
-            console.error("Error updating profile:", error);
             if (error.response) {
                 toast.error(error.response.data.message);
             } else {
@@ -85,7 +95,7 @@ export const useAuthStore = create((set, get) => ({
             set({ authUser: null });
             get().disconnectSocket();
         } catch (error) {
-            console.log("An error in delete acount", error);
+            toast.success("Account deleted successfully");
         }
     },
     connectSocket: () => {
