@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { formatMessageTime } from "../lib/utils";
+import { useChatStore } from "../store/useChatStore";
 
 const Message = (props) => {
     const { message, authUser, selectedUser, selectedMessages, toggleSelection, selectionMode, onlineUsers } = props;
+    const { setFullScreenView } = useChatStore();
     const isSentByUser = (message) => message.senderId === authUser._id;
     const [seenMessages, setSeenMessages] = useState(new Set());
 
@@ -45,6 +47,7 @@ const Message = (props) => {
                         src={message.image}
                         alt='Attachment'
                         className='sm:max-w-[200px] rounded-sm mb-2'
+                        onClick={() => setFullScreenView(message.image)}
                     />
                 )}
                 {message.text && <p className='break-words whitespace-pre-wrap'>{message.text}</p>}

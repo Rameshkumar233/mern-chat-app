@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import SidebarSkeleton from "./skeletons/SideBarSkeleton";
 import Search from "./Search";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 
 const SideBar = () => {
-    const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+    const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading, setFullScreenView } = useChatStore();
     const { onlineUsers, authUser } = useAuthStore();
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -46,6 +45,7 @@ const SideBar = () => {
                         src={authUser.profilePic || "/avatar.png"}
                         className='object-cover rounded-full size-16 '
                         alt={authUser.name}
+                        onClick={() => setFullScreenView(authUser.profilePic)}
                     />
                     <h3 className='font-medium'>{authUser.fullName}</h3>
                 </div>

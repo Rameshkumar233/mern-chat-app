@@ -5,10 +5,12 @@ import { Camera, Mail, User, Check, Pencil } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { EmojiPicker } from "../components/EmojiPicker";
 import ConfirmationModal from "../components/ConfirmationModal";
+import { useChatStore } from "../store/useChatStore";
 
 const ProfilePage = () => {
     const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB in bytes
     const { authUser, isUpdatingProfile, updateProfile, deleteAccount } = useAuthStore();
+    const { setFullScreenView } = useChatStore();
     const [selectedImg, setSelectedImg] = useState(null);
     const [fullName, setFullName] = useState(authUser?.fullName);
     const [isEditing, setIsEditing] = useState(true);
@@ -84,6 +86,7 @@ const ProfilePage = () => {
                                 src={selectedImg || authUser.profilePic || "/avatar.png"}
                                 alt='Profile'
                                 className='object-cover border-4 rounded-full size-32'
+                                onClick={() => setFullScreenView(authUser.profilePic)}
                             />
                             {/* Add the camera icon for editing or deleting profile */}
                             {authUser.profilePic ? (
