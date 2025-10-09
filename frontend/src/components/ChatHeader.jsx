@@ -3,7 +3,7 @@ import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 
 const ChatHeader = ({ setSelectionMode, setOpenClearModal }) => {
-    const { selectedUser, setSelectedUser, unsubscribeFromMessages } = useChatStore();
+    const { selectedUser, setSelectedUser, unsubscribeFromMessages, setFullScreenView } = useChatStore();
     const { onlineUsers } = useAuthStore();
 
     return (
@@ -16,6 +16,7 @@ const ChatHeader = ({ setSelectionMode, setOpenClearModal }) => {
                             <img
                                 src={selectedUser.profilePic || "/avatar.png"}
                                 alt={selectedUser.fullName}
+                                onClick={() => setFullScreenView(selectedUser.profilePic)}
                             />
                         </div>
                     </div>

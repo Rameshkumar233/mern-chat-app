@@ -69,6 +69,7 @@ const SideBar = () => {
                                     src={user.profilePic || "/avatar.png"}
                                     className='object-cover rounded-full size-12'
                                     alt={user.name}
+                                    onClick={() => setFullScreenView(user.profilePic)}
                                 />
                                 {onlineUsers.includes(user._id) && <span className='absolute bottom-0 right-0 bg-green-500 rounded-full size-3 ring-2 ring-zinc-900'></span>}
                             </div>
