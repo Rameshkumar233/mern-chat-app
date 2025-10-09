@@ -62,9 +62,8 @@ const SideBar = () => {
                     return (
                         <button
                             key={user._id}
-                            onClick={() => setSelectedUser(user)}
                             className={`flex items-center gap-3 hover:bg-base-200 w-full p-3 transition-colors ${selectedUser?._id === user._id && "bg-base-300 ring-1 ring-blue-50"}`}>
-                            <div className='relative '>
+                            <div className='relative'>
                                 <img
                                     src={user.profilePic || "/avatar.png"}
                                     className='object-cover rounded-full size-12'
@@ -73,7 +72,7 @@ const SideBar = () => {
                                 />
                                 {onlineUsers.includes(user._id) && <span className='absolute bottom-0 right-0 bg-green-500 rounded-full size-3 ring-2 ring-zinc-900'></span>}
                             </div>
-                            <div>
+                            <div onClick={() => setSelectedUser(user)}>
                                 <div className='font-medium truncate'>{highlightText(user.fullName, searchQuery)}</div>
                             </div>
                         </button>
