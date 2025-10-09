@@ -10,7 +10,9 @@ export const useChatStore = create((set, get) => ({
     setSelectedUser: (selectedUser) => set({ selectedUser: selectedUser }),
     isUsersLoading: false,
     isMessagesLoading: false,
-    unreadCounts: {},
+    fullScreenView: null,
+    setFullScreenView: (img) => set({ fullScreenView: img }),
+    clearFullScreenView: () => set({ fullScreenView: null }),
     getUsers: async () => {
         set({ isUsersLoading: true });
         try {
